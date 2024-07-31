@@ -1,18 +1,53 @@
-console.log("what what!!")
-
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const resp = await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json")
+
+const result = await resp.json()
+
+console.log( result, "data!!", result.data)
 
 const width = 640;
 const height = 400;
+const marginTop = 20;
+const marginRight = 20;
+const marginBottom = 30;
+const marginLeft = 40;
+
+// Declare the x (horizontal position) scale.
+const x = d3.scaleUtc()
+    // .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+    .domain([new Date("1945-01-01"), new Date("2015-01-01")])
+    .range([marginLeft, width - marginRight]);
+
+// Declare the y (vertical position) scale.
+const y = d3.scaleLinear()
+    .domain([240, 18065])
+    .range([height - marginBottom, marginTop]);
 
 const svg = d3.select("div").append("svg").attr("width", width).attr("height", height);
 
-// adding x-axis
-svg.append("g").attr("id", "x-axis")
-// svg.append("g").attr("id", "x-axis").call(d3.axisBottom(d3.scaleLinear([1945, 2015])))
+// Add the x-axis.
+svg.append("g")
+    .attr("transform", `translate(0,${height - marginBottom})`)
+    .attr("id", "x-axis")
+    .attr("class", "tick")
+    .call(d3.axisBottom(x));
 
-// adding y-axis
-svg.append("g").attr("id", "y-axis")
+// Add the y-axis.
+svg.append("g")
+    .attr("transform", `translate(${marginLeft},0)`)
+    .attr("id", "y-axis")
+    .attr("class", "tick")
+    .call(d3.axisLeft(y));
+
+svg.selectAll("rect").data(result.data).enter().append("rect").attr("class", "bar")
+
+// // adding x-axis
+// svg.append("g").attr("id", "x-axis")
+// // svg.append("g").attr("id", "x-axis").call(d3.axisBottom(d3.scaleLinear([1945, 2015])))
+
+// // adding y-axis
+// svg.append("g").attr("id", "y-axis")
 
 
 // const x = d3.scaleLinear([10, 100], ["red", "blue"]);
