@@ -40,7 +40,12 @@ svg.append("g")
     .attr("class", "tick")
     .call(d3.axisLeft(y));
 
-svg.selectAll("rect").data(result.data).enter().append("rect").attr("class", "bar")
+// svg.selectAll("rect").data(result.data).enter().append("rect").attr("class", "bar").attr("data-date", d => d[0]).attr("data-gdp", d => d[1]).attr("x", (d, i) => d[2]).attr("y", d => d[1]).attr("width", "8px").attr("height", d => d[1] + "px").attr("fill", "red")
+
+svg.selectAll("rect")
+.data(result.data).enter().append("rect")
+.attr("class", "bar").attr("data-date", d => d[0]).attr("data-gdp", d => d[1]).attr("x", (d, i) => i + marginLeft + 4).attr("y", d => d[1]).attr("width", "1px").attr("height", d => d[1] + "px")
+.attr("fill", "green").append("title").text(d => d[0])
 
 // // adding x-axis
 // svg.append("g").attr("id", "x-axis")
