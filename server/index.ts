@@ -1,6 +1,9 @@
 import {createExpressMiddleware} from "@trpc/server/adapters/express";
 
-import { appRouter, mergedRouter } from "./routers";
+import { 
+    appRouter
+    // , mergedRouter 
+} from "./routers";
 
 const express = require('express')
 
@@ -11,10 +14,10 @@ const app = express()
 app.use(cors({origin: "http://localhost:5173"}))
 
 app.use("/trpc", createExpressMiddleware({
-    // router: appRouter,
+    router: appRouter,
 
-    // making use of merged router
-    router: mergedRouter
+    // if we were to making use of merged router
+    // router: mergedRouter
 }))
 
 const port = 3001
@@ -27,6 +30,8 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
-// export type AppRouter = typeof appRouter
 
-export type AppRouter = typeof mergedRouter
+export type AppRouter = typeof appRouter
+
+// if we were to make use of merged router
+// export type AppRouter = typeof mergedRouter

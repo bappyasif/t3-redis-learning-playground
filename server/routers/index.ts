@@ -22,4 +22,4 @@ export const appRouter = t.router({
 })
 
 // we can also make use of merged routers so that we dont want to nest them within our root router
-export const mergedRouter = t.mergeRouters(appRouter, usersRouter)
+// export const mergedRouter = t.mergeRouters(appRouter, usersRouter)
