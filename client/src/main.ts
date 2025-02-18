@@ -37,6 +37,14 @@ const main = async () => {
 
     // this will fail as procedure is not defined or does not exist
     // await client.log.mutate("hiiii")
+
+    // making use of nested routers defined in server side
+    const user = await client.users.getUser.query() // this still works as im keeping it there to show how to use nested routers
+    console.log(user);
+
+    // making use of merged routers defined in server side
+    const mergedResult = await client.getUser.query() // as you can see its no longer nested within root router
+    console.log(mergedResult);
 }
 
 main()
