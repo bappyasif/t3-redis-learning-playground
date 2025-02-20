@@ -1,13 +1,26 @@
-import {createTRPCProxyClient, httpBatchLink} from "@trpc/client"
+import {createTRPCProxyClient, httpBatchLink, httpLink, loggerLink} from "@trpc/client"
 
 import {AppRouter} from "../../server/index.ts"
 
 
 const client = createTRPCProxyClient<AppRouter>({
     links: [
+        loggerLink(), // this will log all requests in console in color coded way
         httpBatchLink({
-            url: "http://localhost:3001/trpc"
-        })
+            url: "http://localhost:3001/trpc",
+            // we can send headers here, e.g. auth token
+            headers: {
+                "custom-header": "custom-header-value"
+            }
+        }),
+        // we can also use others link in here as well which will be executed in order
+
+        // this wont batch multiple requests in a single call rather it will send one request at a time
+        // httpLink({
+        //     url: "http://localhost:3001/trpc",
+        // })
+
+        
     ]
 })
 
@@ -62,6 +75,10 @@ const main = async () => {
     // if we were to making use of merged routers defined in server side
     // const mergedResult = await client.getUser.query() // as you can see its no longer nested within root router
     // console.log(mergedResult);
+
+    // making use of admin only procedures
+    const secretData = await client.secretData.query() // this will throw unauthorized error as isAdmin is false, which we have defined in server (ideally it will be true after authentication by user)
+    console.log(secretData);
 }
 
 main()

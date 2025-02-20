@@ -4,6 +4,7 @@ import {
     appRouter
     // , mergedRouter 
 } from "./routers";
+import { createContext } from "./context";
 
 const express = require('express')
 
@@ -18,6 +19,24 @@ app.use("/trpc", createExpressMiddleware({
 
     // if we were to making use of merged router
     // router: mergedRouter
+
+    
+    
+    // use of context within middleware
+    
+    // if we dont define it then we wont be getting access (e.g. undefined) to context anywhere within our routers procedures
+    
+    // if we define like this we'll get context in our procedures but it wont be typed safe!!
+    
+    // createContext: ({ req, res }) => (
+    //     {
+    //         req,
+    //         res
+    //     }
+    // ),
+
+    // now with typed safe context we can get access to typed safe props from context
+    createContext: createContext
 }))
 
 const port = 3001

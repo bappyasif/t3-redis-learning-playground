@@ -38,6 +38,8 @@ export const usersRouter = t.router({
 
     // as we are aggregating on userProcedure input validator, it will concat with waht was already been defined there, for example userId
     updateUser: userProcedure.input(z.object({ name: z.string() })).mutation((req) => {
+        // now that we have included typed safe context in middleware and in trpc instantiation, we can access it here
+        console.log(req.ctx.isAdmin)
         console.log(`User ${req.input.userId} updated to ${req.input.name}`)
         return {
             id: req.input.userId,
