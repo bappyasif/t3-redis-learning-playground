@@ -1,6 +1,8 @@
 import { t } from "../trpc";
 import { z } from "zod";
-
+import { observable } from "@trpc/server/observable"
+import { EventEmitter } from "stream";
+const eventEmitter = new EventEmitter()
 // as this way of validation becomes very tideonous, we can make use of input validator library such as zod
 // const userProcedure = t.procedure.input(v => {
 //     if(typeof v === "string") {
@@ -54,6 +56,9 @@ export const usersRouter = t.router({
         .mutation((req) => {
             console.log(`User ${req.input.userId} updated to ${req.input.name}`)
 
+            // lets call our event emitter
+            eventEmitter.emit("update", req.input)
+
             // basically whatever is defined in output schema will be returned to client back, and whatever is not defined in output schema will not be returned
 
             // also we cant sent back data without meeting output schema
@@ -63,5 +68,18 @@ export const usersRouter = t.router({
                 name: req.input.name,
                 password: "password" // password is not going to be passed back to client, because we have defined output where password is not included
             }
+        }),
+
+        // lets make use of observable  with a subscription
+        onUpdate: t.procedure.subscription(() => {
+            return observable<string>(emit => {
+                eventEmitter.on("update", emit.next)
+
+                return () => {
+                    // after we close our ws connection, we need to remove our listener, so that it doesnt keep listening
+                    eventEmitter.off("update", emit.next)
+                }
+            })
         })
+        
 })
