@@ -7,6 +7,7 @@ import {
   // , mergedRouter 
 } from "./routers";
 import { createContext } from "./context";
+import { redisWithoutTrpcRouter } from "./routers/redis-w-o-trpc";
 
 const express = require('express')
 
@@ -47,15 +48,23 @@ app.get('/', (req: any, res: any) => {
   res.send('Hello World!')
 })
 
-const server = app.listen(port, () => {
+// only making use of router without trpc to see redis in action
+app.use(redisWithoutTrpcRouter)
+
+app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
-applyWSSHandler({
-  wss: new ws.Server({ server }),
-  router: appRouter,
-  createContext
-})
+// not making use of ws now, to ommit error either take out ":ecpress types" from dependency or edit context.ts file
+// const server = app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
+
+// applyWSSHandler({
+//   wss: new ws.Server({ server }),
+//   router: appRouter,
+//   createContext
+// })
 
 export type AppRouter = typeof appRouter
 
