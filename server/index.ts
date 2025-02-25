@@ -8,6 +8,7 @@ import {
 } from "./routers";
 import { createContext } from "./context";
 import { redisWithoutTrpcRouter } from "./routers/redis-w-o-trpc";
+import { redisAndTrpcRouter } from "./routers/redis-and-trpc";
 
 const express = require('express')
 
@@ -49,7 +50,7 @@ app.get('/', (req: any, res: any) => {
 })
 
 // only making use of router without trpc to see redis in action
-app.use(redisWithoutTrpcRouter)
+app.use(redisWithoutTrpcRouter, redisAndTrpcRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

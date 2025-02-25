@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { redisClient } from "../../redis-client";
 
-import { createClient } from 'redis';
+// import { createClient } from 'redis';
 
-const redisClient = createClient();
+// const redisClient = createClient();
 
 // await client.connect();
 

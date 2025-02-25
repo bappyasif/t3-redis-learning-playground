@@ -117,6 +117,20 @@ const main = async () => {
         }
     })
 
+    // lets get our trpc with redis client working
+    const redisWithoutTrpcResult = await client.trpc_and_redis.photosWithoutRedis.query()
+    console.log(redisWithoutTrpcResult);
+
+    // also to note that trpc is not testable using regaular rest clients
+
+    // lets make use of trpc with redis
+    const redisWithTrpcResult = await client .trpc_and_redis.photos_redis.query()
+    console.log(redisWithTrpcResult);
+
+    // making use of redis trpc mutation
+    const redisWithTrpcMutationResult = await client.trpc_and_redis.photos_redis_album.mutate({ albumId: 1 })
+    console.log(redisWithTrpcMutationResult, "mutatation result");
+
     // now if needed we can also close our entire subscription
     wsClient.close()
     

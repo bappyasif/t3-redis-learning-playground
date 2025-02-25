@@ -1,4 +1,5 @@
 import { adminProcedure, t } from "../trpc";
+import { redisAndTrpcWithoutRedisRouter } from "./redis-and-trpc";
 import { usersRouter } from "./users";
 
 export const appRouter = t.router({
@@ -26,7 +27,10 @@ export const appRouter = t.router({
     secretData: adminProcedure.query(({ctx}) => {
         console.log(ctx.user, ctx.isAdmin)
         return "secret data for admin only riouters"
-    })
+    }),
+
+    // lets make use of trpc and redis
+    trpc_and_redis: redisAndTrpcWithoutRedisRouter
 })
 
 // we can also make use of merged routers so that we dont want to nest them within our root router
