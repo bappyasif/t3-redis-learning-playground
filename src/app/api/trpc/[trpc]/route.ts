@@ -13,7 +13,7 @@ const handler = (req: Request) => {
                 return {
                     message: error.message,
                     code: error.code,
-                    // data: error.data
+                    stack: error.stack
                 }
             }
         })

@@ -2,6 +2,7 @@
 
 import { trpc } from "@/utils/trpc"
 import { getUser } from "./actions/user/getUser"
+import { NameUpdater } from "@/components/NameUpdater"
 
 export default function Home() {
   const handleGetUser = async () => {
@@ -39,6 +40,8 @@ export default function Home() {
       <div>
         <p>User from tRPC: {data?.name}</p>
       </div>
+
+      <NameUpdater />
     </main>
   );
 }
