@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { TRPCProvider } from "./_trpc/Provider";
 import "./globals.css";
-import { TRPCProvider } from "@/components/TRPCProvider";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
