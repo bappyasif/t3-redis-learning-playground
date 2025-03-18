@@ -67,6 +67,7 @@ export default async function Home() {
           {/* <DummyPosts /> */}
 
           <Link href="/dummy-posts">Dummy posts</Link>
+          <Link href={"/tasks"}>Tasks</Link>
         </div>
       </main>
     </HydrateClient>
